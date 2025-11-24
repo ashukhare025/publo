@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "660569365420",
+    "project_id": "publogoo-5ed7c",
+    "storage_bucket": "publogoo-5ed7c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660569365420:android:ebf4944d198ac73510f809",
+        "android_client_info": {
+          "package_name": "com.publogoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "660569365420-7lqdc1p5iou1anu4dpj75kft7ait1ko7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.publogoo",
+            "certificate_hash": "f901d08f163e2d7ff9bc2bef1d94d07d7a0e55fd"
+          }
+        },
+        {
+          "client_id": "660569365420-f1kq6ulru6rvr08e5eetthap22lngkn5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxRpmSAbKVDYANyk71XvYYDWT4zQ2SqJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "660569365420-f1kq6ulru6rvr08e5eetthap22lngkn5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "660569365420-gu0h59d4vst1hv8uvnjp60r81vbj8d2e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.publogoo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
