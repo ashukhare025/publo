@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:publo/views/update_view.dart';
-
 import '../constants.dart';
+import 'chat_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -122,7 +122,7 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text(
-          "Home",
+          "Welcome",
           style: TextStyle(
             color: Colors.white,
             fontSize: 28,
@@ -140,21 +140,13 @@ class _HomeViewState extends State<HomeView> {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => UpdateView()),
-              );
+              Navigator.pushNamed(context, UpdateView.id);
             },
             icon: Icon(Icons.edit, color: Colors.white),
           ),
           IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => UpdateView()),
-              );
-            },
-            icon: Icon(Icons.login, color: Colors.white),
+            onPressed: () {},
+            icon: Icon(Icons.logout, color: Colors.white),
           ),
         ],
       ),
@@ -167,18 +159,22 @@ class _HomeViewState extends State<HomeView> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 250,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Colors.white, width: 2),
-                    image: DecorationImage(
-                      image: AssetImage(item["image"]),
-                      fit: BoxFit.cover,
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, ChatView.id, arguments: "");
+                  },
+                  child: Container(
+                    height: 250,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.white, width: 2),
+                      image: DecorationImage(
+                        image: AssetImage(item["image"]),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-
                 SizedBox(height: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,11 +184,17 @@ class _HomeViewState extends State<HomeView> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
+                        color: Colors.white,
+                        fontFamily: "dubai",
                       ),
                     ),
                     Text(
                       item["location"],
-                      style: TextStyle(fontSize: 12, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontFamily: "dubai",
+                      ),
                     ),
                     SizedBox(height: 20),
                   ],

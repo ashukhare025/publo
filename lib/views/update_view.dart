@@ -9,6 +9,7 @@ import '../cubits/update_cubit/update_cubit.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_form_text_field.dart';
 import 'chat_view.dart';
+import 'home_view.dart';
 
 class UpdateView extends StatefulWidget {
   const UpdateView({super.key});
@@ -34,12 +35,13 @@ class _UpdateViewState extends State<UpdateView> {
           isLoading = true;
         } else if (state is UpdateSuccess) {
           BlocProvider.of<ChatCubit>(context).getMessages();
-          Navigator.pushNamed(context, ChatView.id, arguments: email);
-          isLoading = false;
-        } else if (state is UpdateFailure) {
-          showSnackBar(context, state.errMessage);
+          Navigator.pushNamed(context, HomeView.id);
           isLoading = false;
         }
+        // else if (state is UpdateFailure) {
+        //   showSnackBar(context, state.errMessage);
+        //   isLoading = false;
+        // }
       },
       builder: (context, state) => ModalProgressHUD(
         inAsyncCall: isLoading,

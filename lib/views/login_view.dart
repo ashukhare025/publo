@@ -37,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
           isLoading = true;
         } else if (state is LoginSuccess) {
           BlocProvider.of<ChatCubit>(context).getMessages();
-          Navigator.pushNamed(context, ChatView.id, arguments: email);
+          Navigator.pushNamed(context, HomeView.id, arguments: email);
           isLoading = false;
         } else if (state is LoginFailure) {
           showSnackBar(context, state.errMessage);
@@ -112,21 +112,21 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const SizedBox(height: 32),
                   CustomButton(
-                    // onTap: () async {
-                    //   if (formKey.currentState!.validate()) {
-                    //     BlocProvider.of<LoginCubit>(
-                    //       context,
-                    //     ).loginUser(email: email!, password: password!);
-                    //   } else {
-                    //     log("the data does not validate.");
-                    //   }
-                    // },
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeView()),
-                      );
+                    onTap: () async {
+                      if (formKey.currentState!.validate()) {
+                        BlocProvider.of<LoginCubit>(
+                          context,
+                        ).loginUser(email: email!, password: password!);
+                      } else {
+                        // log("the data does not validate.");
+                      }
                     },
+                    // onTap: () {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(builder: (context) => HomeView()),
+                    //   );
+                    // },
                     title: "Login",
                   ),
                   const SizedBox(height: 12),
