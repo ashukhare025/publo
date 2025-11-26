@@ -23,6 +23,7 @@ class _CustomFormTextFieldState extends State<CustomFormTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(color: Colors.white),
       validator: (data) {
         if (data!.isEmpty) {
           return "Field is required.";

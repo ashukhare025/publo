@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:publo/cubits/chat_cubit/chat_cubit.dart';
 import 'package:publo/cubits/login_cubit/login_cubit.dart';
 import 'package:publo/cubits/update_cubit/update_cubit.dart';
+import 'package:publo/cubits/venue_cubit/venue_cubit.dart';
 import 'package:publo/views/chat_view.dart';
 import 'package:publo/views/home_view.dart';
 import 'package:publo/views/login_view.dart';
@@ -10,9 +11,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:publo/views/update_view.dart';
+import 'package:publo/views/user_view.dart';
+import 'package:publo/views/venue_view.dart';
 
 import 'cubits/home_cubit/home_cubit.dart';
 import 'cubits/signup_cubit/signup_cubit.dart';
+import 'cubits/user_cubit/user_cubit.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -40,6 +44,8 @@ class MindBridge extends StatelessWidget {
         BlocProvider(create: (context) => ChatCubit()),
         BlocProvider(create: (context) => UpdateCubit()),
         BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => VenueCubit()),
+        BlocProvider(create: (context) => UserCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -49,6 +55,8 @@ class MindBridge extends StatelessWidget {
           ChatView.id: (context) => ChatView(),
           UpdateView.id: (context) => UpdateView(),
           HomeView.id: (context) => HomeView(),
+          VenueView.id: (context) => VenueView(),
+          UserView.id: (context) => UserView(),
         },
         initialRoute: LoginView.id,
       ),

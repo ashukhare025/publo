@@ -3,6 +3,7 @@ import 'package:publo/cubits/chat_cubit/chat_cubit.dart';
 import 'package:publo/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});

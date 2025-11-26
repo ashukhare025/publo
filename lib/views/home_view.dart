@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:publo/views/update_view.dart';
+import 'package:publo/views/venue_view.dart';
 import '../constants.dart';
 import 'chat_view.dart';
+import 'login_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -115,6 +117,8 @@ class _HomeViewState extends State<HomeView> {
     },
   ];
 
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,7 +149,9 @@ class _HomeViewState extends State<HomeView> {
             icon: Icon(Icons.edit, color: Colors.white),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, LoginView.id);
+            },
             icon: Icon(Icons.logout, color: Colors.white),
           ),
         ],
@@ -161,7 +167,16 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, ChatView.id, arguments: "");
+                    Navigator.pushNamed(
+                      context,
+                      VenueView.id,
+                      arguments: {
+                        "venueId": index,
+                        "image": item["image"],
+                        "name": item["name"],
+                        "location": item["location"],
+                      },
+                    );
                   },
                   child: Container(
                     height: 250,
@@ -203,6 +218,20 @@ class _HomeViewState extends State<HomeView> {
             );
           },
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (value) {
+          setState(() => currentIndex = value);
+
+          if (value == 1) {
+            Navigator.pushNamed(context, ChatView.id, arguments: "");
+          }
+        },
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"),
+        ],
       ),
     );
   }
