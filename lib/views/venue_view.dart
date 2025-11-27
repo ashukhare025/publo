@@ -98,7 +98,7 @@ class _VenueViewState extends State<VenueView> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: Text(
-                "Promo Code",
+                "Verification Code",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

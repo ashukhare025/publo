@@ -9,6 +9,7 @@ import '../cubits/chat_cubit/chat_cubit.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_form_text_field.dart';
 import 'chat_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});

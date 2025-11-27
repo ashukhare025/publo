@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:publo/views/update_view.dart';
+import 'package:publo/views/user_view.dart';
 import 'package:publo/views/venue_view.dart';
 import '../constants.dart';
 import 'chat_view.dart';
@@ -117,6 +118,24 @@ class _HomeViewState extends State<HomeView> {
     },
   ];
 
+  final Map<int, List<Map<String, dynamic>>> venueUsers = {
+    0: [
+      {"name": "Amit Sharma", "image": "assets/images/person1.jpg"},
+      {"name": "Rahul Sharma", "image": "assets/images/person3.jpg"},
+      {"name": "Ram Singh", "image": "assets/images/person1.jpg"},
+      {"name": "David Watson", "image": "assets/images/person3.jpg"},
+    ],
+    1: [
+      {"name": "Priya Singh", "image": "assets/images/person1.jpg"},
+      {"name": "Neha Antiwar", "image": "assets/images/person3.jpg"},
+    ],
+    2: [
+      {"name": "John Doe", "image": "assets/images/person1.jpg"},
+    ],
+  };
+
+  int selectedVenueId = 0;
+
   int currentIndex = 0;
 
   @override
@@ -167,6 +186,7 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 InkWell(
                   onTap: () {
+                    selectedVenueId = index;
                     Navigator.pushNamed(
                       context,
                       VenueView.id,
@@ -225,7 +245,11 @@ class _HomeViewState extends State<HomeView> {
           setState(() => currentIndex = value);
 
           if (value == 1) {
-            Navigator.pushNamed(context, ChatView.id, arguments: "");
+            Navigator.pushNamed(
+              context,
+              UserView.id,
+              arguments: venueUsers[selectedVenueId],
+            );
           }
         },
         items: [

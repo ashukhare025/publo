@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:publo/views/update_view.dart';
 import 'package:publo/views/user_view.dart';
 import 'package:publo/views/venue_view.dart';
-
 import 'cubits/home_cubit/home_cubit.dart';
 import 'cubits/signup_cubit/signup_cubit.dart';
 import 'cubits/user_cubit/user_cubit.dart';

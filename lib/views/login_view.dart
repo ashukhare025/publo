@@ -48,7 +48,9 @@ class _LoginViewState extends State<LoginView> {
             HomeView.id,
             arguments: email,
           );
-          isLoading = false;
+        } else if (state is LoginFailure) {
+          setState(() => isLoading = false);
+          showSnackBar(context, state.errMessage);
         }
       },
       child: ModalProgressHUD(

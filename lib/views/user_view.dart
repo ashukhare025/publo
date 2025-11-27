@@ -13,7 +13,8 @@ class UserView extends StatefulWidget {
 class _UserViewState extends State<UserView> {
   @override
   Widget build(BuildContext context) {
-    final users = ModalRoute.of(context)!.settings.arguments as List;
+    final List users =
+        (ModalRoute.of(context)?.settings.arguments as List?) ?? [];
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
