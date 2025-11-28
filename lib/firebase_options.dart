@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
     projectId: 'publogoo-5ed7c',
     storageBucket: '',
     iosClientId:
-    '660569365420-gu0h59d4vst1hv8uvnjp60r81vbj8d2e.apps.googleusercontent.com',
+        '660569365420-gu0h59d4vst1hv8uvnjp60r81vbj8d2e.apps.googleusercontent.com',
     iosBundleId: 'com.publogoo',
   );
 }

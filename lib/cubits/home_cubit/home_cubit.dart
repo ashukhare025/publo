@@ -12,6 +12,7 @@ class HomeCubit extends Cubit<HomeState> {
     required String email,
     required String username,
     required String number,
+    required String image,
   }) async {
     emit(HomeLoading());
     try {
@@ -24,7 +25,12 @@ class HomeCubit extends Cubit<HomeState> {
 
       // Firestore me update
       await FirebaseFirestore.instance.collection("users").doc(user.uid).update(
-        {"username": username, "email": email, "number": number},
+        {
+          "username": username,
+          "email": email,
+          "number": number,
+          "image": image,
+        },
       );
 
       emit(HomeSuccess());

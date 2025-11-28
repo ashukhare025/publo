@@ -17,6 +17,7 @@ class SignupCubit extends Cubit<SignupState> {
     try {
       UserCredential useCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.signOut();
       emit(SignupSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

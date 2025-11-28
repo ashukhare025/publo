@@ -17,10 +17,12 @@ import 'cubits/home_cubit/home_cubit.dart';
 import 'cubits/signup_cubit/signup_cubit.dart';
 import 'cubits/user_cubit/user_cubit.dart';
 import 'firebase_options.dart';
+import 'firebase_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  final firestoreService = FirestoreService();
 
   try {
     await FirebaseAuth.instance.currentUser?.reload();
@@ -54,10 +56,27 @@ class MindBridge extends StatelessWidget {
           ChatView.id: (context) => ChatView(),
           UpdateView.id: (context) => UpdateView(),
           HomeView.id: (context) => HomeView(),
-          VenueView.id: (context) => VenueView(),
+          VenueView.id: (context) => VenueView(index: 0),
           UserView.id: (context) => UserView(),
         },
-        initialRoute: LoginView.id,
+        // initialRoute: LoginView.id,
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            // Firebase loading
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            // User already logged-in?
+            if (snapshot.hasData) {
+              return HomeView(); // 🔥 Direct Home
+            }
+
+            // Otherwise show Login
+            return LoginView(); // 🔐 First time login
+          },
+        ),
       ),
     );
   }

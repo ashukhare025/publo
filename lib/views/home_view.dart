@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:publo/views/update_view.dart';
 import 'package:publo/views/user_view.dart';
 import 'package:publo/views/venue_view.dart';
 import '../constants.dart';
+import '../cubits/venue_cubit/venue_cubit.dart';
 import 'chat_view.dart';
 import 'login_view.dart';
 
@@ -134,7 +136,13 @@ class _HomeViewState extends State<HomeView> {
     ],
   };
 
-  int selectedVenueId = 0;
+  // int selectedVenueId = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<VenueCubit>().fetchVenues();
+  }
 
   int currentIndex = 0;
 
@@ -175,81 +183,89 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: ListView.builder(
-          itemCount: dataList.length,
-          itemBuilder: (context, index) {
-            final item = dataList[index];
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    selectedVenueId = index;
-                    Navigator.pushNamed(
-                      context,
-                      VenueView.id,
-                      arguments: {
-                        "venueId": index,
-                        "image": item["image"],
-                        "name": item["name"],
-                        "location": item["location"],
-                      },
-                    );
-                  },
-                  child: Container(
-                    height: 250,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.white, width: 2),
-                      image: DecorationImage(
-                        image: AssetImage(item["image"]),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 5),
-                Column(
+
+      body: BlocBuilder<VenueCubit, VenueState>(
+        builder: (context, state) {
+          if (state is VenueLoading) {
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            );
+          }
+          if (state is VenueFailure) {
+            return Center(
+              child: Text(
+                state.errMessage,
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          }
+          if (state is VenueSuccess) {
+            final venues = state.venues;
+
+            return ListView.builder(
+              itemCount: venues.length,
+              itemBuilder: (context, index) {
+                final item = venues[index];
+
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    InkWell(
+                      onTap: () {
+                        print(VenueView.id);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VenueView(index: index),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 250,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.white, width: 2),
+                          image: DecorationImage(
+                            image: (dataList[index]["image"] ?? "").isEmpty
+                                ? AssetImage("assets/images/placeholder.png")
+                                : AssetImage(dataList[index]["image"])
+                                      as ImageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 5),
                     Text(
-                      item["name"],
+                      item["title"].toString(),
                       style: TextStyle(
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Colors.white,
-                        fontFamily: "dubai",
                       ),
                     ),
                     Text(
-                      item["location"],
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                        fontFamily: "dubai",
-                      ),
+                      item["address"].toString(),
+                      style: TextStyle(color: Colors.white, fontSize: 12),
                     ),
                     SizedBox(height: 20),
                   ],
-                ),
-              ],
+                );
+              },
             );
-          },
-        ),
+          }
+          return const SizedBox();
+        },
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (value) {
           setState(() => currentIndex = value);
 
           if (value == 1) {
-            Navigator.pushNamed(
-              context,
-              UserView.id,
-              arguments: venueUsers[selectedVenueId],
-            );
+            Navigator.pushNamed(context, UserView.id);
           }
         },
         items: [
