@@ -112,7 +112,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_state.dart';
 
@@ -125,7 +125,7 @@ class UserCubit extends Cubit<UserState> {
   Future<void> fetchUsers() async {
     emit(UserLoading());
     try {
-      final snapshot = await _firestore.collection("users").get();
+      final snapshot = await _firestore.collection("manu").get();
 
       if (snapshot.docs.isEmpty) {
         emit(UserFailure("No users found"));
@@ -138,8 +138,8 @@ class UserCubit extends Cubit<UserState> {
         return UserModel(
           image: data['image']?.toString() ?? "",
           name: data['name']?.toString() ?? "",
-          chatIcon: Icons.chat, // Replace with proper logic if dynamic
-          personIcon: Icons.person, // Replace with proper logic if dynamic
+          chatIcon: Icons.chat,
+          personIcon: Icons.person,
         );
       }).toList();
 

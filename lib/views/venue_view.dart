@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/venue_cubit/venue_cubit.dart';
@@ -73,6 +74,8 @@ class _VenueViewState extends State<VenueView> {
 
             // Display first venue for example
             final data = venues[widget.index];
+            print("object");
+            print("${data['image']}");
 
             return ListView(
               padding: const EdgeInsets.all(12),
@@ -82,13 +85,14 @@ class _VenueViewState extends State<VenueView> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: Colors.white, width: 2),
-                    image: DecorationImage(
-                      image: (data['image'] ?? "").isEmpty
-                          ? AssetImage("assets/images/placeholder.png")
-                          : NetworkImage(data['image']) as ImageProvider,
-                      fit: BoxFit.cover,
-                    ),
+                    // image: DecorationImage(
+                    //   image: (data['image'] ?? "").isEmpty
+                    //       ? AssetImage("assets/images/placeholder.png")
+                    //       : NetworkImage(data['image']) as ImageProvider,
+                    //   fit: BoxFit.cover,
+                    // ),
                   ),
+                  child: CachedNetworkImage(imageUrl: data['image']),
                 ),
 
                 const SizedBox(height: 20),
