@@ -18,7 +18,7 @@ class CustomFormTextField extends StatefulWidget {
 }
 
 class _CustomFormTextFieldState extends State<CustomFormTextField> {
-  bool _isPasswordSecure = false;
+  bool _isPasswordSecure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,11 @@ class _CustomFormTextFieldState extends State<CustomFormTextField> {
         return null;
       },
       onChanged: widget.onChanged,
-      obscureText: _isPasswordSecure,
+      // obscureText: _isPasswordSecure,
+      obscureText: widget.icon != null ? _isPasswordSecure : false,
       decoration: InputDecoration(
-        suffixIcon: togglePassword(),
+        // suffixIcon: togglePassword(),
+        suffixIcon: widget.icon != null ? togglePassword() : null,
         hintText: widget.hintText,
         hintStyle: TextStyle(color: Colors.white),
         border: OutlineInputBorder(

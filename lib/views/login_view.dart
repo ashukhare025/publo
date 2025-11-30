@@ -97,9 +97,10 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const SizedBox(height: 8),
                   CustomFormTextField(
-                    onChanged: (data) {
-                      email = data;
-                    },
+                    // onChanged: (data) {
+                    //   email = data;
+                    // },
+                    onChanged: (data) => email = data,
                     hintText: "example@gmail.com",
                   ),
                   const SizedBox(height: 8),
@@ -112,9 +113,10 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const SizedBox(height: 8),
                   CustomFormTextField(
-                    onChanged: (data) {
-                      password = data;
-                    },
+                    // onChanged: (data) {
+                    //   password = data;
+                    // },
+                    onChanged: (data) => password = data,
                     icon: Icons.visibility_off,
                     inverseIcon: Icons.visibility,
                     hintText: "enter your password",

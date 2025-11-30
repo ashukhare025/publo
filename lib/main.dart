@@ -22,7 +22,7 @@ import 'firebase_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  final firestoreService = FirestoreService();
+  // final firestoreService = FirestoreService();
 
   try {
     await FirebaseAuth.instance.currentUser?.reload();

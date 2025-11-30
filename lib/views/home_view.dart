@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:publo/views/update_view.dart';
@@ -176,8 +177,9 @@ class _HomeViewState extends State<HomeView> {
             icon: Icon(Icons.edit, color: Colors.white),
           ),
           IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, LoginView.id);
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.pushReplacementNamed(context, LoginView.id);
             },
             icon: Icon(Icons.logout, color: Colors.white),
           ),
