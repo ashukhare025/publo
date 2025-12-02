@@ -58,23 +58,30 @@ class MessageModel {
   final String message;
   final String senderId;
   final String receiverId;
-  final Timestamp? createdAt;
+  final Timestamp? timestamp;
 
   MessageModel({
     required this.message,
     required this.senderId,
     required this.receiverId,
-    this.createdAt,
+    this.timestamp,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
-      message: (json[kMessageDocument] ?? "").toString(),
-      senderId: (json[kSenderID] ?? "").toString(),
-      receiverId: (json['receiverId'] ?? "").toString(),
-      createdAt: json[kCreatedAtDocument] is Timestamp
-          ? json[kCreatedAtDocument]
-          : Timestamp.now(),
+      message: json["message"] ?? "",
+      senderId: json["senderId"] ?? "",
+      receiverId: json["receiverId"] ?? "",
+      timestamp: json["timestamp"],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "message": message,
+      "senderId": senderId,
+      "receiverId": receiverId,
+      "timestamp": timestamp,
+    };
   }
 }

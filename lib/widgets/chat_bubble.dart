@@ -11,17 +11,17 @@ class ChatBubble extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: EdgeInsets.only(left: 16, right: 32, bottom: 32, top: 32),
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         decoration: BoxDecoration(
-          color: kPrimaryColor,
-          borderRadius: BorderRadius.only(
+          color: Colors.yellow.shade700,
+          borderRadius: const BorderRadius.only(
             bottomRight: Radius.circular(32),
             topLeft: Radius.circular(32),
             topRight: Radius.circular(32),
           ),
         ),
-        child: Text(message.message, style: TextStyle(color: Colors.white)),
+        child: Text(message.message, style: const TextStyle(color: Colors.white)),
       ),
     );
   }
@@ -36,18 +36,20 @@ class ChatBubbleForFriend extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        padding: EdgeInsets.only(left: 16, right: 32, bottom: 32, top: 32),
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         decoration: BoxDecoration(
-          color: kSecondaryColor,
-          borderRadius: BorderRadius.only(
+          color: kPrimaryColor,
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(32),
             topLeft: Radius.circular(32),
             topRight: Radius.circular(32),
           ),
         ),
-        child: Text(message.message, style: TextStyle(color: Colors.white)),
+        child: Text(message.message, style: const TextStyle(color: Colors.white)),
       ),
     );
   }
 }
+
+

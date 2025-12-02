@@ -1,11 +1,19 @@
 part of 'chat_cubit.dart';
 
+
 @immutable
-sealed class ChatState {}
+abstract class ChatState {}
 
-final class ChatInitial extends ChatState {}
+class ChatInitial extends ChatState {}
 
-final class ChatSuccess extends ChatState {
-  List<MessageModel> messagesList;
+class ChatLoading extends ChatState {}
+
+class ChatSuccess extends ChatState {
+  final List<MessageModel> messagesList;
   ChatSuccess({required this.messagesList});
+}
+
+class ChatFailure extends ChatState {
+  final String error;
+  ChatFailure({required this.error});
 }

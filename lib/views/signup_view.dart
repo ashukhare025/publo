@@ -36,7 +36,7 @@ class _SignupViewState extends State<SignupView> {
         if (state is SignupLoading) {
           isLoading = true;
         } else if (state is SignupSuccess) {
-          BlocProvider.of<ChatCubit>(context).getMessages();
+          // BlocProvider.of<ChatCubit>(context).getMessages();
           Navigator.pushNamed(context, ChatView.id, arguments: email);
           isLoading = false;
         } else if (state is SignupFailure) {

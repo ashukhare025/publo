@@ -4,6 +4,7 @@ import 'package:publo/cubits/login_cubit/login_cubit.dart';
 import 'package:publo/cubits/update_cubit/update_cubit.dart';
 import 'package:publo/cubits/venue_cubit/venue_cubit.dart';
 import 'package:publo/views/chat_view.dart';
+import 'package:publo/views/home_users.dart';
 import 'package:publo/views/home_view.dart';
 import 'package:publo/views/login_view.dart';
 import 'package:publo/views/signup_view.dart';
@@ -17,7 +18,6 @@ import 'cubits/home_cubit/home_cubit.dart';
 import 'cubits/signup_cubit/signup_cubit.dart';
 import 'cubits/user_cubit/user_cubit.dart';
 import 'firebase_options.dart';
-import 'firebase_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,12 +53,27 @@ class MindBridge extends StatelessWidget {
         routes: {
           LoginView.id: (context) => LoginView(),
           SignupView.id: (context) => SignupView(),
-          ChatView.id: (context) => ChatView(),
+          // ChatView.id: (context) => ChatView(),
           UpdateView.id: (context) => UpdateView(),
           HomeView.id: (context) => HomeView(),
           VenueView.id: (context) => VenueView(index: 0),
           UserView.id: (context) => UserView(),
+          HomeUserView.id: (context) => HomeUserView(),
         },
+        // onGenerateRoute: (settings) {
+        //   if (settings.name == ChatView.id) {
+        //     final args = settings.arguments as Map<String, dynamic>;
+        //
+        //     return MaterialPageRoute(
+        //       builder: (_) => ChatView(
+        //         receiverId: args["receiverId"],
+        //         receiverName: args["receiverName"],
+        //         receiverImage: args["receiverImage"],
+        //       ),
+        //     );
+        //   }
+        //   return null;
+        // },
         // initialRoute: LoginView.id,
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
@@ -81,9 +96,3 @@ class MindBridge extends StatelessWidget {
     );
   }
 }
-
-//id("com.google.gms.google-services") version "4.4.4" apply false
-//id("com.android.application")
-//id("com.google.gms.google-services")
-//implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
-//implementation("com.google.firebase:firebase-analytics")

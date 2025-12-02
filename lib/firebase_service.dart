@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -28,22 +29,34 @@ class FirestoreService {
       return {
         "id": doc.id,
         "name": data['name']?.toString() ?? "No Name",
+        // "image": data['image']?.toString() ?? "",
         "email": data['email']?.toString() ?? "No Email",
       };
     }).toList();
   }
 
   // Chats fetch
-  Future<List<Map<String, dynamic>>> getChats() async {
-    final snapshot = await _db.collection('chats').orderBy('timestamp').get();
-    return snapshot.docs.map((doc) {
-      final data = doc.data();
-      return {
-        "id": doc.id,
-        "sender": data['sender']?.toString() ?? "Unknown",
-        "message": data['message']?.toString() ?? "",
-        "timestamp": data['timestamp'] ?? 0,
-      };
-    }).toList();
+  //   Future<List<Map<String, dynamic>>> getChats() async {
+  //     final snapshot = await _db.collection('chats').orderBy('timestamp').get();
+  //     return snapshot.docs.map((doc) {
+  //       final data = doc.data();
+  //       return {
+  //         "id": doc.id,
+  //         "sender": data['sender']?.toString() ?? "Unknown",
+  //         "message": data['message']?.toString() ?? "",
+  //         "timestamp": data['timestamp'] ?? 0,
+  //       };
+  //     }).toList();
+  //   }
+  // }
+
+  Future<void> saveUserToFirestore(User user) async {
+    await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+      "uid": user.uid,
+      "name": user.displayName ?? "",
+      "email": user.email ?? "",
+      "photoUrl": user.photoURL ?? "",
+      "createdAt": DateTime.now(),
+    });
   }
 }

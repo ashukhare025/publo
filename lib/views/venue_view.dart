@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/venue_cubit/venue_cubit.dart';
@@ -30,9 +32,7 @@ class _VenueViewState extends State<VenueView> {
   Widget build(BuildContext context) {
     print("asasasa");
 
-    // HomeView se pass hua selected venue
-    // final data =
-    //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
 
     return Scaffold(
       backgroundColor: kPrimaryColor,
@@ -85,12 +85,6 @@ class _VenueViewState extends State<VenueView> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: Colors.white, width: 2),
-                    // image: DecorationImage(
-                    //   image: (data['image'] ?? "").isEmpty
-                    //       ? AssetImage("assets/images/placeholder.png")
-                    //       : NetworkImage(data['image']) as ImageProvider,
-                    //   fit: BoxFit.cover,
-                    // ),
                   ),
                   child: CachedNetworkImage(imageUrl: data['image']),
                 ),
@@ -140,10 +134,36 @@ class _VenueViewState extends State<VenueView> {
                           );
                           return;
                         }
-                        if (promo ==
-                            (data['verification_code'] ?? "").toString()) {
-                          Navigator.pushNamed(context, UserView.id);
-                        } else {
+                        if (promo == (data['verification_code'] ?? "").toString()) {
+                          final venueId = data["id"];
+                          final user = FirebaseAuth.instance.currentUser!;
+
+                          FirebaseFirestore.instance
+                              .collection('manu')
+                              .doc(venueId)
+                              .collection('users')
+                              .doc(user.uid)
+                              .set({
+                            "uid": user.uid,
+                            "name": user.displayName ?? "User",
+                            "email": user.email ?? "",
+                            "photoUrl": user.photoURL ?? "",
+                            "joined_at": FieldValue.serverTimestamp(),
+                          }).then((_) {
+                            Navigator.pushNamed(
+                              context,
+                              UserView.id,
+                              arguments: venueId,
+                            );
+                          });
+                        }
+
+
+                        // if (promo ==
+                        //     (data['verification_code'] ?? "").toString()) {
+                        //   Navigator.pushNamed(context, UserView.id);
+                        // }
+                        else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text("Invalid promo code")),
                           );

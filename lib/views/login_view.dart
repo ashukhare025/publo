@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../helper/show_snack_bar.dart';
-import 'chat_view.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,13 +39,13 @@ class _LoginViewState extends State<LoginView> {
         if (state is LoginLoading) {
           isLoading = true;
         } else if (state is LoginSuccess) {
-          BlocProvider.of<ChatCubit>(context).getMessages();
+          // BlocProvider.of<ChatCubit>(context).getMessages();
           final prefs = await SharedPreferences.getInstance();
           await prefs.setBool('isLoggedIn', true);
           Navigator.pushReplacementNamed(
             context,
             HomeView.id,
-            arguments: email,
+            // arguments: email,
           );
         } else if (state is LoginFailure) {
           setState(() => isLoading = false);

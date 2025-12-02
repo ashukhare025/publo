@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:publo/views/home_users.dart';
 import 'package:publo/views/update_view.dart';
 import 'package:publo/views/user_view.dart';
 import 'package:publo/views/venue_view.dart';
 import '../constants.dart';
 import '../cubits/venue_cubit/venue_cubit.dart';
-import 'chat_view.dart';
 import 'login_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -267,7 +267,7 @@ class _HomeViewState extends State<HomeView> {
           setState(() => currentIndex = value);
 
           if (value == 1) {
-            Navigator.pushNamed(context, UserView.id);
+            Navigator.pushNamed(context, HomeUserView.id);
           }
         },
         items: [

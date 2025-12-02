@@ -34,7 +34,7 @@ class _UpdateViewState extends State<UpdateView> {
         if (state is UpdateLoading) {
           isLoading = true;
         } else if (state is UpdateSuccess) {
-          BlocProvider.of<ChatCubit>(context).getMessages();
+          // BlocProvider.of<ChatCubit>(context).getMessages();
           Navigator.pushNamed(context, HomeView.id);
           isLoading = false;
         }

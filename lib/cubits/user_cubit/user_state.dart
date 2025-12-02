@@ -7,10 +7,6 @@ class UserInitial extends UserState {}
 
 class UserLoading extends UserState {}
 
-// class UserLoaded extends UserState {
-//   final UserModel user;
-//   UserLoaded(this.user);
-// }
 
 final class UserSuccess extends UserState {
   final List<UserModel> users;
@@ -21,3 +17,6 @@ class UserFailure extends UserState {
   final String errorMessage;
   UserFailure(this.errorMessage);
 }
+class UserContactAdded extends UserState {}
+class UserRequestAccepted extends UserState {}
+class UserRequestRejected extends UserState {}

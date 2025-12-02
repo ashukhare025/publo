@@ -19,6 +19,7 @@ class VenueCubit extends Cubit<VenueState> {
       final venues = snapshot.docs.map((doc) {
         final data = doc.data();
         return {
+          "id": doc.id,
           "title": data['title'],
           "address": data['address'],
           "lat": data['lat'],
@@ -27,6 +28,7 @@ class VenueCubit extends Cubit<VenueState> {
           "verification_code": data['verification_code'],
         };
       }).toList();
+
 
       emit(VenueSuccess(venues: venues));
     } catch (e) {
