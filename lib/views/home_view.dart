@@ -49,95 +49,7 @@ class _HomeViewState extends State<HomeView> {
       "name": "Big Pitcher (Sarjapur)",
       "location": "Sarjapur Road",
     },
-    {
-      "image": "assets/images/BygBrewskiBrewing.png",
-      "name": "Byg Brewski Brewing Co (Hennur)",
-      "location": "Hennur",
-    },
-    {
-      "image": "assets/images/BygBrewskiBrewingSarjapur.png",
-      "name": "Byg Brewski Brewing Co (Sarjapur)",
-      "location": "Sarjapur / Bellandur",
-    },
-    {
-      "image": "assets/images/StoriesBrewery&Kitchen.png",
-      "name": "Stories Brewery & Kitchen",
-      "location": "JP Nagar",
-    },
-    {
-      "image": "assets/images/BLRBrewingCo.png",
-      "name": "BLR Brewing Co (Kanakapura)",
-      "location": "Kanakapura Road",
-    },
-    {
-      "image": "assets/images/BLRBrewingCo(Electronic City).png",
-      "name": "BLR Brewing Co (Electronic City)",
-      "location": "Electronic City",
-    },
-    {
-      "image": "assets/images/District6PubBrewery.jpg",
-      "name": "District 6 Pub Brewery",
-      "location": "Malleshwaram",
-    },
-    {
-      "image": "assets/images/Communiti.jpg",
-      "name": "Communiti",
-      "location": " Brigade Road",
-    },
-    {
-      "image": "assets/images/Gilly’s Restobar.jpg",
-      "name": "Gilly’s Restobar",
-      "location": "Koramangala",
-    },
-    {
-      "image": "assets/images/Fenny’s Lounge & Kitchen.jpg",
-      "name": "Fenny’s Lounge & Kitchen",
-      "location": " Koramangala 7th Block",
-    },
-    {
-      "image": "assets/images/Hammered.png",
-      "name": "Hammered",
-      "location": "New BEL Road",
-    },
-    {
-      "image": "assets/images/IronhillBengaluru.jpg",
-      "name": "Ironhill Bengaluru",
-      "location": "Marathahalli",
-    },
-    {
-      "image": "assets/images/Bob’s Bar.png",
-      "name": "Bob’s Bar",
-      "location": "Indiranagar",
-    },
-    {
-      "image": "assets/images/Windmills Craftworks.jpg",
-      "name": "Windmills Craftworks",
-      "location": "Whitefield",
-    },
-    {
-      "image": "assets/images/Red Rhino.jpg",
-      "name": "Red Rhino",
-      "location": "Whitefield",
-    },
   ];
-
-  final Map<int, List<Map<String, dynamic>>> venueUsers = {
-    0: [
-      {"name": "Amit Sharma", "image": "assets/images/person1.jpg"},
-      {"name": "Rahul Sharma", "image": "assets/images/person3.jpg"},
-      {"name": "Ram Singh", "image": "assets/images/person1.jpg"},
-      {"name": "David Watson", "image": "assets/images/person3.jpg"},
-    ],
-    1: [
-      {"name": "Priya Singh", "image": "assets/images/person1.jpg"},
-      {"name": "Neha Antiwar", "image": "assets/images/person3.jpg"},
-    ],
-    2: [
-      {"name": "John Doe", "image": "assets/images/person1.jpg"},
-    ],
-  };
-
-  // int selectedVenueId = 0;
 
   @override
   void initState() {
@@ -147,10 +59,49 @@ class _HomeViewState extends State<HomeView> {
 
   int currentIndex = 0;
 
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: kPrimaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          title: Text(
+            "Logout",
+            style: TextStyle(color: Colors.white, fontSize: 22),
+          ),
+          content: Text(
+            "Are you sure you want to logout?",
+            style: TextStyle(color: Colors.white70, fontSize: 18),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("No", style: TextStyle(color: Colors.white)),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacementNamed(context, LoginView.id);
+              },
+              child: Text("Yes", style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: _buildDrawer(context),
       backgroundColor: kPrimaryColor,
+
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text(
@@ -165,27 +116,30 @@ class _HomeViewState extends State<HomeView> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: Size(20, 30),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, UpdateView.id);
+          Builder(
+            builder: (context) {
+              return IconButton(
+                icon: Icon(Icons.more_vert, color: Colors.white),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
             },
-            icon: Icon(Icons.edit, color: Colors.white),
-          ),
-          IconButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushReplacementNamed(context, LoginView.id);
-            },
-            icon: Icon(Icons.logout, color: Colors.white),
           ),
         ],
       ),
 
+      // actions: [
+      //   Builder(
+      //     builder: (context) {
+      //       return IconButton(
+      //         icon: Icon(Icons.more_vert, color: Colors.white),
+      //         onPressed: () {
+      //           Scaffold.of(context).openDrawer();
+      //         },
+      //       );
+      //     },
+      //   ),
       body: BlocBuilder<VenueCubit, VenueState>(
         builder: (context, state) {
           if (state is VenueLoading) {
@@ -214,7 +168,6 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     InkWell(
                       onTap: () {
-                        print(VenueView.id);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -228,10 +181,7 @@ class _HomeViewState extends State<HomeView> {
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(color: Colors.white, width: 2),
                           image: DecorationImage(
-                            image: (dataList[index]["image"] ?? "").isEmpty
-                                ? AssetImage("assets/images/placeholder.png")
-                                : AssetImage(dataList[index]["image"])
-                                      as ImageProvider,
+                            image: AssetImage(dataList[index]["image"]),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -262,6 +212,7 @@ class _HomeViewState extends State<HomeView> {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         currentIndex: currentIndex,
         onTap: (value) {
           setState(() => currentIndex = value);
@@ -275,6 +226,80 @@ class _HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"),
         ],
       ),
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      backgroundColor: kPrimaryColor,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(color: Colors.black26),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: AssetImage("assets/images/person1.jpg"),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Ashu Khare",
+                  style: TextStyle(color: Colors.white, fontSize: 22),
+                ),
+                Text(
+                  FirebaseAuth.instance.currentUser?.email ?? "",
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ],
+            ),
+          ),
+
+          _buildMenuItem(Icons.person, "View Profile", () {
+            Navigator.pushNamed(context, UserView.id);
+          }),
+
+          // _buildMenuItem(Icons.camera_alt, "Edit Profile Picture", () {
+          //   Navigator.pushNamed(context, UpdateView.id);
+          // }),
+          _buildMenuItem(Icons.badge, "Update Profile", () {
+            Navigator.pushNamed(context, UpdateView.id);
+          }),
+
+          // _buildMenuItem(Icons.email, "Edit Email", () {
+          //   Navigator.pushNamed(context, UpdateView.id);
+          // }),
+          //
+          // _buildMenuItem(Icons.info_outline, "Edit Bio", () {
+          //   Navigator.pushNamed(context, UpdateView.id);
+          // }),
+          //
+          // _buildMenuItem(Icons.phone, "Edit Phone Number", () {
+          //   Navigator.pushNamed(context, UpdateView.id);
+          // }),
+          //
+          _buildMenuItem(Icons.history, "View My Past Venue", () {
+            Navigator.pushNamed(context, HomeUserView.id);
+          }),
+          Divider(color: Colors.white54),
+
+          _buildMenuItem(Icons.logout, "Logout", () {
+            Navigator.pop(context);
+            _showLogoutDialog(context);
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.white),
+      title: Text(title, style: TextStyle(color: Colors.white, fontSize: 18)),
+      onTap: onTap,
     );
   }
 }

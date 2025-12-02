@@ -12,6 +12,7 @@ class UpdateCubit extends Cubit<UpdateState> {
     required String email,
     required String username,
     required String number,
+    required String bio,
   }) async {
     emit(UpdateLoading());
     try {

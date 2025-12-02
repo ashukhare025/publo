@@ -21,7 +21,10 @@ class ChatBubble extends StatelessWidget {
             topRight: Radius.circular(32),
           ),
         ),
-        child: Text(message.message, style: const TextStyle(color: Colors.white)),
+        child: Text(
+          message.message,
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
     );
   }
@@ -46,10 +49,11 @@ class ChatBubbleForFriend extends StatelessWidget {
             topRight: Radius.circular(32),
           ),
         ),
-        child: Text(message.message, style: const TextStyle(color: Colors.white)),
+        child: Text(
+          message.message,
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
     );
   }
 }
-
-

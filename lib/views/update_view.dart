@@ -10,6 +10,8 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_form_text_field.dart';
 import 'chat_view.dart';
 import 'home_view.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class UpdateView extends StatefulWidget {
   const UpdateView({super.key});
@@ -23,7 +25,10 @@ class _UpdateViewState extends State<UpdateView> {
   String? email;
   String? username;
   String? number;
+  String? Bio;
   bool isLoading = false;
+
+  File? profileImage;
 
   GlobalKey<FormState> formKey = GlobalKey();
 
@@ -87,6 +92,59 @@ class _UpdateViewState extends State<UpdateView> {
                     ],
                   ),
                   const SizedBox(height: 50),
+                  Center(
+                    child: Stack(
+                      children: [
+                        // Main Profile Circle
+                        CircleAvatar(
+                          radius: 55,
+                          backgroundColor: Colors.white24,
+                          backgroundImage: profileImage != null
+                              ? FileImage(profileImage!)
+                              : null,
+                          child: profileImage == null
+                              ? Icon(
+                                  Icons.person,
+                                  size: 60,
+                                  color: Colors.white,
+                                )
+                              : null,
+                        ),
+
+                        // Edit Button (Camera Icon)
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: () async {
+                              final picker = ImagePicker();
+                              final picked = await picker.pickImage(
+                                source: ImageSource.gallery,
+                                imageQuality: 70,
+                              );
+
+                              if (picked != null) {
+                                setState(() {
+                                  profileImage = File(picked.path);
+                                });
+                              }
+                            },
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.greenAccent,
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -134,6 +192,36 @@ class _UpdateViewState extends State<UpdateView> {
                     hintText: "enter your number",
                   ),
 
+                  const SizedBox(height: 8),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Bio",
+                      style: TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  // TextFormField(
+                  //   onChanged: (data) {
+                  //     Bio = data;
+                  //   },
+                  //   decoration: InputDecoration(
+                  //     hintText: "Enter your Bio",
+                  //     border: OutlineInputBorder(),
+                  //     enabledBorder: OutlineInputBorder(
+                  //       borderSide: BorderSide(color: Colors.white),
+                  //     ),
+                  //     errorBorder: OutlineInputBorder(
+                  //       borderSide: BorderSide(color: Colors.red),
+                  //     ),
+                  //   ),
+                  // ),
+                  CustomFormTextField(
+                    onChanged: (data) {
+                      username = data;
+                    },
+                    hintText: "Enter your bio",
+                  ),
                   const SizedBox(height: 32),
                   CustomButton(
                     onTap: () async {
@@ -142,10 +230,25 @@ class _UpdateViewState extends State<UpdateView> {
                           email: email!,
                           username: username!,
                           number: number!,
+                          bio: Bio!,
                         );
                       }
                     },
                     title: "Update",
+                  ),
+                  SizedBox(height: 10),
+                  CustomButton(
+                    onTap: () async {
+                      if (formKey.currentState!.validate()) {
+                        BlocProvider.of<UpdateCubit>(context).registerUser(
+                          email: email!,
+                          username: username!,
+                          number: number!,
+                          bio: Bio!,
+                        );
+                      }
+                    },
+                    title: "Logout",
                   ),
                   const SizedBox(height: 12),
                   // Row(

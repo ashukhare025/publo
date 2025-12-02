@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:publo/constants.dart';
 import 'package:publo/cubits/chat_cubit/chat_cubit.dart';
@@ -7,7 +5,6 @@ import 'package:publo/models/message_model.dart';
 import 'package:publo/widgets/chat_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class ChatView extends StatefulWidget {
   static String id = "ChatView";
@@ -54,32 +51,48 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
     if (currentUserId == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        backgroundColor: kPrimaryColor,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(kLogoImage, height: 50),
-            const SizedBox(width: 10),
-            const Text(
-              "Chat",
-              style: TextStyle(
+            CircleAvatar(backgroundImage: NetworkImage(widget.receiverImage)),
+            SizedBox(width: 10),
+            Text(
+              widget.receiverName,
+              style: const TextStyle(
                 color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
                 fontFamily: "dubai",
               ),
             ),
           ],
         ),
-        backgroundColor: kPrimaryColor,
       ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Image.asset(kLogoImage, height: 50),
+      //       const SizedBox(width: 10),
+      //       const Text(
+      //         "Chat",
+      //         style: TextStyle(
+      //           color: Colors.white,
+      //           fontSize: 28,
+      //           fontWeight: FontWeight.w500,
+      //           fontFamily: "dubai",
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      //   backgroundColor: kPrimaryColor,
+      // ),
       body: Column(
         children: [
           Expanded(
@@ -101,12 +114,22 @@ class _ChatViewState extends State<ChatView> {
                     final isSender = message.senderId == currentUserId;
 
                     return Align(
-                      alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
+                      alignment: isSender
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: isSender ? Colors.yellow.shade700 : kPrimaryColor,
+                          color: isSender
+                              ? Colors.yellow.shade700
+                              : kPrimaryColor,
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(isSender ? 32 : 0),
                             bottomRight: Radius.circular(isSender ? 0 : 32),

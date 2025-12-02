@@ -28,6 +28,25 @@ class _SignupViewState extends State<SignupView> {
   bool isLoading = false;
 
   GlobalKey<FormState> formKey = GlobalKey();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+
+  String passwordMessage = "";
+
+  void checkPasswordStrength(String value) {
+    if (value.length < 8) {
+      setState(
+        () => passwordMessage = "Password must be at least 8 characters",
+      );
+    } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
+      setState(() => passwordMessage = "Include at least 1 uppercase letter");
+    } else if (!RegExp(r'[0-9]').hasMatch(value)) {
+      setState(() => passwordMessage = "Include at least 1 number");
+    } else {
+      setState(() => passwordMessage = "Strong Password ✔");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,44 +115,126 @@ class _SignupViewState extends State<SignupView> {
                     ),
                   ),
                   const SizedBox(height: 8),
+
                   CustomFormTextField(
                     onChanged: (data) {
                       username = data;
                     },
-                    hintText: "enter your username",
+                    hintText: "Enter your username",
                   ),
                   const SizedBox(height: 8),
-                  const Align(
+                  // const Align(
+                  //   alignment: Alignment.centerLeft,
+                  //   child: Text(
+                  //     "Email",
+                  //     style: TextStyle(color: Colors.white, fontSize: 24),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 8),
+                  // CustomFormTextField(
+                  //   onChanged: (data) {
+                  //     email = data;
+                  //   },
+                  //   hintText: "example@gmail.com",
+                  // ),
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Email",
                       style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  CustomFormTextField(
+                  SizedBox(height: 8),
+                  TextFormField(
+                    controller: emailController,
                     onChanged: (data) {
                       email = data;
                     },
-                    hintText: "example@gmail.com",
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(color: Colors.white),
+                      // labelText: "Password",
+                      hintText: "example@gmail.com",
+                      border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Field is required";
+                      }
+                      if (!RegExp(
+                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(value)) {
+                        return "Enter a valid email";
+                      }
+                      return null;
+                    },
                   ),
-                  const SizedBox(height: 8),
-                  const Align(
+                  SizedBox(height: 8),
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Password",
                       style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  CustomFormTextField(
-                    onChanged: (data) {
-                      password = data;
+                  SizedBox(height: 8),
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: true,
+                    onChanged: checkPasswordStrength,
+                    // onChanged: (data) {
+                    //   password = data;
+                    // },
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(color: Colors.white),
+                      // labelText: "Password",
+                      hintText: "Enter your password",
+
+                      border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Field is required";
+                      }
+                      return null;
                     },
-                    icon: Icons.visibility_off,
-                    inverseIcon: Icons.visibility,
-                    hintText: "enter your password",
                   ),
+                  Text(
+                    passwordMessage,
+                    style: TextStyle(
+                      color: passwordMessage.contains("✔")
+                          ? Colors.green
+                          : Colors.red,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  // const Align(
+                  //   alignment: Alignment.centerLeft,
+                  //   child: Text(
+                  //     "Password",
+                  //     style: TextStyle(color: Colors.white, fontSize: 24),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 8),
+                  // CustomFormTextField(
+                  //   onChanged: (data) {
+                  //     password = data;
+                  //   },
+                  //   icon: Icons.visibility_off,
+                  //   inverseIcon: Icons.visibility,
+                  //   hintText: "enter your password",
+                  // ),
                   const SizedBox(height: 32),
                   CustomButton(
                     onTap: () async {

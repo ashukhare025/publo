@@ -32,8 +32,6 @@ class _VenueViewState extends State<VenueView> {
   Widget build(BuildContext context) {
     print("asasasa");
 
-
-
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
@@ -104,37 +102,39 @@ class _VenueViewState extends State<VenueView> {
                 ),
 
                 const SizedBox(height: 20),
-                const Text(
-                  "Verification Code",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                // const Text(
+                //   "Verification Code",
+                //   style: TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 18,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
                 const SizedBox(height: 8),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: CustomFormTextField(
-                        onChanged: (value) {
-                          promo = value;
-                        },
-                        hintText: "Enter your code",
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: CustomFormTextField(
+                    //     onChanged: (value) {
+                    //       promo = value;
+                    //     },
+                    //     hintText: "Enter your code",
+                    //   ),
+                    // ),
                     const SizedBox(width: 10),
                     ElevatedButton(
                       onPressed: () {
                         if (promo == null || promo!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Please enter promo code"),
-                            ),
-                          );
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(
+                          //     content: Text("Please enter promo code"),
+                          //   ),
+                          // );
                           return;
                         }
-                        if (promo == (data['verification_code'] ?? "").toString()) {
+                        if (promo ==
+                            (data['verification_code'] ?? "").toString()) {
                           final venueId = data["id"];
                           final user = FirebaseAuth.instance.currentUser!;
 
@@ -144,21 +144,20 @@ class _VenueViewState extends State<VenueView> {
                               .collection('users')
                               .doc(user.uid)
                               .set({
-                            "uid": user.uid,
-                            "name": user.displayName ?? "User",
-                            "email": user.email ?? "",
-                            "photoUrl": user.photoURL ?? "",
-                            "joined_at": FieldValue.serverTimestamp(),
-                          }).then((_) {
-                            Navigator.pushNamed(
-                              context,
-                              UserView.id,
-                              arguments: venueId,
-                            );
-                          });
+                                "uid": user.uid,
+                                "name": user.displayName ?? "User",
+                                "email": user.email ?? "",
+                                "photoUrl": user.photoURL ?? "",
+                                "joined_at": FieldValue.serverTimestamp(),
+                              })
+                              .then((_) {
+                                Navigator.pushNamed(
+                                  context,
+                                  UserView.id,
+                                  arguments: venueId,
+                                );
+                              });
                         }
-
-
                         // if (promo ==
                         //     (data['verification_code'] ?? "").toString()) {
                         //   Navigator.pushNamed(context, UserView.id);
@@ -169,7 +168,14 @@ class _VenueViewState extends State<VenueView> {
                           );
                         }
                       },
-                      child: const Text("Apply"),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Text("Add User"),
+                          SizedBox(width: 8),
+                          Icon(Icons.add),
+                        ],
+                      ),
                     ),
                   ],
                 ),
